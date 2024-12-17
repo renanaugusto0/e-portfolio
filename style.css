@@ -1,0 +1,55 @@
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Roboto Mono', monospace;
+    transition: background-color 0.5s, color 0.5s;
+}
+
+.highlight-text {
+    color: #007bff;
+    text-shadow: 0 0 2px #007bff;
+}
+
+.card {
+    background-color: #1e1e1e;
+    border: none;
+    color: #b0b0b0;
+}
+
+.card:hover {
+    box-shadow: 0 0 10px #007bff;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+p {
+    color: #c0c0c0;
+}
+
+.light-theme p {
+    color: #333333;
+}
+
+.light-theme .card {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.light-theme .highlight-text {
+    color: #0056b3;
+    text-shadow: none;
+}
+
+.profile-img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+}
