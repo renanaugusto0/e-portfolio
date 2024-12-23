@@ -6,115 +6,246 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meu Portfólio</title>
 
+    <!-- React & ReactDOM via CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Fonte Google -->
+    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Roboto Mono', monospace;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .dark-theme {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
+        .light-theme {
+            background-color: white;
+            color: #333;
+        }
+
+        .highlight-text {
+            color: #007bff;
+            text-shadow: 0 0 5px #007bff;
+        }
+
+        .theme-toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .profile-img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 8px solid #007bff;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(0, 123, 255, 0.5);
+        }
+
+        .card {
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        footer {
+            background: linear-gradient(to right, #007bff, #0056b3);
+            color: white;
+        }
+
+        #projects {
+            background-color: #f8f9fa;
+        }
+
+        .btn-remove {
+            background-color: #ff4d4f;
+            color: white;
+            border: none;
+        }
+
+        .btn-remove:hover {
+            background-color: #e04343;
+        }
+    </style>
 </head>
 
-<body>
-    <div class="container text-center py-5">
-        <!-- Cabeçalho -->
-        <header class="mb-5">
-            <h1 class="highlight-text">Meu Portfólio</h1>
-            <p class="lead">Oi! Eu sou um desenvolvedor aprendendo e criando novas coisas!</p>
-        </header>
+<body class="dark-theme">
+    <div id="root"></div>
 
-        <!-- Sobre mim -->
-        <section id="about" class="mb-5">
-            <div class="row justify-content-center">
-                <div class="col-md-4">
-                    <img src="B7EE60D2-D735-4286-A78E-E7F594FDF165.jpeg" alt="Minha foto"
-                        class="rounded-circle img-fluid">
+    <!-- Babel for JSX -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.21.4/babel.min.js"></script>
+
+    <!-- React App Script -->
+    <script type="text/babel">
+        const { useState } = React;
+
+        const App = () => {
+            const [darkTheme, setDarkTheme] = useState(true);
+            const [projects, setProjects] = useState([]);
+
+            const toggleTheme = () => {
+                setDarkTheme(!darkTheme);
+                document.body.className = darkTheme ? 'light-theme' : 'dark-theme';
+            };
+
+            const addProject = (title, description) => {
+                setProjects([...projects, { title, description }]);
+            };
+
+            const removeProject = (index) => {
+                const newProjects = [...projects];
+                newProjects.splice(index, 1);
+                setProjects(newProjects);
+            };
+
+            return (
+                <div>
+                    <button
+                        className="theme-toggle-btn btn btn-primary"
+                        onClick={toggleTheme}
+                    >
+                        {darkTheme ? "🌞 Tema Claro" : "🌙 Tema Escuro"}
+                    </button>
+
+                    <header className="text-center py-5">
+                        <h1 className="highlight-text">Meu Portfólio</h1>
+                        <p className="lead">Adicione projetos dinamicamente!</p>
+                    </header>
+
+                    <section id="about" className="py-5 text-center">
+                        <div className="container">
+                            <img
+                                src="B7EE60D2-D735-4286-A78E-E7F594FDF165.jpeg"
+                                alt="Minha foto"
+                                className="profile-img mb-4"
+                            />
+                            <h2>Sobre Mim</h2>
+                            <p>Sou apaixonado por tecnologia e adoro aprender coisas novas!</p>
+                        </div>
+                    </section>
+
+                    <section id="skills" className="py-5 bg-light text-center">
+                        <div className="container">
+                            <h2 className="highlight-text mb-4">Minhas Habilidades</h2>
+                            <div className="row">
+                                {["HTML", "CSS", "JavaScript"].map((skill) => (
+                                    <div key={skill} className="col-md-4">
+                                        <div className="card p-4">
+                                            <h5>{skill}</h5>
+                                            <p>
+                                                {skill === "HTML"
+                                                    ? "Estruturo páginas web."
+                                                    : skill === "CSS"
+                                                    ? "Crio o design das páginas."
+                                                    : "Faço as páginas ficarem interativas."}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="projects" className="py-5">
+                        <div className="container">
+                            <h2 className="highlight-text text-center mb-4">Meus Projetos</h2>
+                            <ProjectForm onAddProject={addProject} />
+                            <div className="row mt-4">
+                                {projects.map((project, index) => (
+                                    <div key={index} className="col-md-4 mb-4">
+                                        <div className="card p-3">
+                                            <h5>{project.title}</h5>
+                                            <p>{project.description}</p>
+                                            <button
+                                                className="btn btn-remove"
+                                                onClick={() => removeProject(index)}
+                                            >
+                                                Remover
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    <footer className="text-center py-3">
+                        <p>&copy; 2024 Meu Portfólio. Todos os direitos reservados.</p>
+                    </footer>
                 </div>
-            </div>
-            <h2 class="mt-3">Sobre Mim</h2>
-            <p>Eu adoro tecnologia e web. Estou sempre tentando aprender mais!</p>
-        </section>
-
-        <!-- Minhas Habilidades -->
-        <section id="skills" class="mb-5">
-            <h2 class="highlight-text">Minhas Habilidades</h2>
-            <div class="row mt-4">
-                <div class="col-md-4">
-                    <div class="card p-3">
-                        <h5>HTML</h5>
-                        <p>Estruturo páginas web.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card p-3">
-                        <h5>CSS</h5>
-                        <p>Crio o design das páginas.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card p-3">
-                        <h5>JavaScript</h5>
-                        <p>Faço as páginas ficarem interativas.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contato -->
-        <section id="contact" class="mb-5">
-            <h2 class="highlight-text">Entre em Contato</h2>
-            <p>Me encontre nas redes sociais ou envie uma mensagem.</p>
-            <div>
-                <a href="#" class="btn btn-primary mx-1">LinkedIn</a>
-                <a href="#" class="btn btn-primary mx-1">GitHub</a>
-                <a href="#" class="btn btn-primary mx-1">Instagram</a>
-                <a href="#" class="btn btn-primary mx-1">WhatsApp</a>
-            </div>
-        </section>
-    </div>
-
-    <script>
-        // Primeiro, pegamos o corpo da página (o <body>) para poder fazer alterações nele.
-        const body = document.body;
-
-        // Criamos um botão para o usuário clicar e alternar entre os temas (claro e escuro).
-        const toggleButton = document.createElement('button');
-
-        // Definimos o texto que vai aparecer no botão. 
-        toggleButton.innerText = 'Alternar Tema';
-
-        // Adicionamos a classe de estilo ao botão para ele ter o visual padrão de um botão do Bootstrap.
-        toggleButton.className = 'btn btn-primary';
-
-        // Posicionamos o botão de forma fixa na tela, no canto superior direito.
-        toggleButton.style.position = 'fixed';
-        toggleButton.style.top = '20px'; // A distância do topo da página.
-        toggleButton.style.right = '20px'; // A distância da borda direita da página.
-
-        // Definimos o que vai acontecer quando o botão for clicado.
-        toggleButton.onclick = () => {
-            // Quando o botão for clicado, alternamos a classe 'light-theme' no body.
-            // Isso muda o tema da página de escuro para claro ou vice-versa.
-            body.classList.toggle('light-theme');
-
-            // Verificamos a cor de fundo do corpo da página para decidir qual tema aplicar.
-            if (body.style.backgroundColor === 'white') {
-                // Se o fundo for branco, mudamos para o tema escuro.
-                body.style.backgroundColor = '#121212'; // Cor de fundo escura
-                body.style.color = '#e0e0e0'; // Cor de texto clara para contraste no tema escuro
-            } else {
-                // Se o fundo não for branco (ou seja, o tema já está escuro), mudamos para o tema claro.
-                body.style.backgroundColor = 'white'; // Cor de fundo clara
-                body.style.color = '#000000'; // Cor de texto escura para contraste no tema claro
-            }
+            );
         };
 
-        // Adicionamos o botão na página para que ele seja visível e o usuário possa interagir com ele.
-        document.body.appendChild(toggleButton);
+        const ProjectForm = ({ onAddProject }) => {
+            const [title, setTitle] = useState("");
+            const [description, setDescription] = useState("");
 
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (!title || !description) {
+                    alert("Preencha todos os campos!");
+                    return;
+                }
+                onAddProject(title, description);
+                setTitle("");
+                setDescription("");
+            };
+
+            return (
+                <form onSubmit={handleSubmit} className="mb-4">
+                    <div className="row">
+                        <div className="col-md-5">
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Título do projeto"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                            />
+                        </div>
+                        <div className="col-md-5">
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Descrição do projeto"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                            />
+                        </div>
+                        <div className="col-md-2">
+                            <button type="submit" className="btn btn-success w-100">
+                                Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
     </script>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
