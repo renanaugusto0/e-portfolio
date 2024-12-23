@@ -195,7 +195,87 @@
                         <p>&copy; 2024 Meu Portfólio. Todos os direitos reservados.</p>
                     </footer>
                 </div>
+<<<<<<< HEAD
             );
+=======
+            </div>
+            <h2 class="mt-3">Sobre Mim</h2>
+            <p>Eu adoro tecnologia e web. Estou sempre tentando aprender mais!</p>
+        </section>
+
+        <!-- Minhas Habilidades -->
+        <section id="skills" class="mb-5">
+            <h2 class="highlight-text">Minhas Habilidades</h2>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="card p-3">
+                        <h5>HTML</h5>
+                        <p>Estruturo páginas web.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card p-3">
+                        <h5>CSS</h5>
+                        <p>Crio o design das páginas.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card p-3">
+                        <h5>JavaScript</h5>
+                        <p>Faço as páginas ficarem interativas.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contato -->
+        <section id="contact" class="mb-5">
+            <h2 class="highlight-text">Entre em Contato</h2>
+            <p>Me encontre nas redes sociais ou envie uma mensagem.</p>
+            <div>
+                <a href="#" class="btn btn-primary mx-1">LinkedIn</a>
+                <a href="https://github.com/renanaugusto0" class="btn btn-primary mx-1">GitHub</a>
+                <a href="https://www.instagram.com/renan_augusto_0/" class="btn btn-primary mx-1">Instagram</a>
+                <a href="https://api.whatsapp.com/send/?phone=5519982545719&text&type=phone_number&app_absent=0" class="btn btn-primary mx-1">WhatsApp</a>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Primeiro, pegamos o corpo da página (o <body>) para poder fazer alterações nele.
+        const body = document.body;
+
+        // Criamos um botão para o usuário clicar e alternar entre os temas (claro e escuro).
+        const toggleButton = document.createElement('button');
+
+        // Definimos o texto que vai aparecer no botão. 
+        toggleButton.innerText = 'Alternar Tema';
+
+        // Adicionamos a classe de estilo ao botão para ele ter o visual padrão de um botão do Bootstrap.
+        toggleButton.className = 'btn btn-primary';
+
+        // Posicionamos o botão de forma fixa na tela, no canto superior direito.
+        toggleButton.style.position = 'fixed';
+        toggleButton.style.top = '20px'; // A distância do topo da página.
+        toggleButton.style.right = '20px'; // A distância da borda direita da página.
+
+        // Definimos o que vai acontecer quando o botão for clicado.
+        toggleButton.onclick = () => {
+            // Quando o botão for clicado, alternamos a classe 'light-theme' no body.
+            // Isso muda o tema da página de escuro para claro ou vice-versa.
+            body.classList.toggle('light-theme');
+
+            // Verificamos a cor de fundo do corpo da página para decidir qual tema aplicar.
+            if (body.style.backgroundColor === 'white') {
+                // Se o fundo for branco, mudamos para o tema escuro.
+                body.style.backgroundColor = '#121212'; // Cor de fundo escura
+                body.style.color = '#e0e0e0'; // Cor de texto clara para contraste no tema escuro
+            } else {
+                // Se o fundo não for branco (ou seja, o tema já está escuro), mudamos para o tema claro.
+                body.style.backgroundColor = 'white'; // Cor de fundo clara
+                body.style.color = '#000000'; // Cor de texto escura para contraste no tema claro
+            }
+>>>>>>> b3f83c2c47eaabf2efc2ab93123e3e5aef24e5c8
         };
 
         const ProjectForm = ({ onAddProject }) => {
